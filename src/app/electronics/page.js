@@ -28,7 +28,7 @@ function page() {
         <Heading title={"Electronics"} />
       </div>
       <div>
-        {loading ? <Loading /> : <Products data={electronicsProducts} />}
+        {loading ? <Loading /> : <Products data={electronicsProducts} loading={loading} />}
       </div>
     </>
   );

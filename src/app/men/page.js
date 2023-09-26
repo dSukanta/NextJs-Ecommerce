@@ -1,6 +1,7 @@
 "use client"
 import Header from '@/components/Header'
 import Heading from '@/components/Heading'
+import Loading from '@/components/Loading'
 import Products from '@/components/Products'
 import { getProductsByCategory } from '@/utils/functions'
 import React, { useEffect, useState } from 'react'
@@ -26,7 +27,9 @@ function page() {
     <div className='justify-center text-center'>
     <Heading title={`Men's Clothings`}/>
     </div>
-    <Products data={menProducts}/>
+    <div>
+        {loading ? <Loading /> : <Products data={menProducts} loading={loading} />}
+      </div>
     </>
   )
 }
