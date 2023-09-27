@@ -1,4 +1,5 @@
 "use client"
+import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Heading from '@/components/Heading'
 import Loading from '@/components/Loading'
@@ -30,6 +31,7 @@ function page() {
     <div>
         {loading ? <Loading /> : <Products data={menProducts} loading={loading} />}
       </div>
+      <Footer/>
     </>
   )
 }

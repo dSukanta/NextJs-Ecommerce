@@ -1,28 +1,35 @@
 import Link from "next/link";
 import React from "react";
 import {BsFillCartPlusFill} from 'react-icons/bs';
+import StarRatings from "react-star-ratings";
 
 function ProductCard({ data}) {
+ 
   return (
-    <Link className="w-80 max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700" href={`/${data?.id}`}>
-        <img
+    <div className="w-80 max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <Link href={`/${data?.id}`}>
+      <img
           className="p-8 rounded-t-lg object-contain h-48 w-full transition-transform transform hover:scale-150"
           src={data?.image}
           alt="product image"
         />
+      </Link>
       <div className="px-5 pb-5">
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        <Link href={`/${data?.id}`}>
+        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
             {data?.title}
           </h5>
-        <div className="flex items-center mt-2.5 mb-5">
+        </Link>
+        <div className="flex items-center my-3">
+          <StarRatings starRatedColor="green" numberOfStars={5} rating={data?.rating?.rate} starDimension="15px" starSpacing="1px"/>
           {/* Star icons */}
           {/* Rating */}
-          <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+          <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mt-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
             {data?.rating?.rate}
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">
+          <span className="text-2xl font-bold text-gray-900 dark:text-white">
             ${data?.price}
           </span>
           <a
@@ -34,7 +41,7 @@ function ProductCard({ data}) {
           </a>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

@@ -1,6 +1,9 @@
 "use client";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import { getProductsById } from "@/utils/functions";
 import React, { useEffect, useState } from "react";
+import StarRatings from "react-star-ratings";
 
 function page({ params }) {
   const [product, setProduct] = useState([]);
@@ -19,6 +22,7 @@ function page({ params }) {
 
   return (
     <>
+    <Header/>
       {loading ? (
         <div
           role="status"
@@ -47,11 +51,11 @@ function page({ params }) {
         </div>
       ) : (
         <section className="text-gray-600 body-font overflow-hidden">
-          <div className="container px-5 py-24 mx-auto">
-            <div className="lg:w-4/5 mx-auto flex flex-wrap justify-center items-center">
+          <div className="container py-5 mx-auto">
+            <div className="lg:w-4/5 flex flex-wrap items-center border-2">
               <img
                 alt="ecommerce"
-                className="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded"
+                className="lg:w-1/2 w-full h-64 object-contain object-center rounded"
                 src={product?.image}
               />
               <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -61,67 +65,11 @@ function page({ params }) {
                 <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
                   {product?.title}
                 </h1>
-                <div className="flex mb-4">
-                  <span className="flex items-center">
-                    <svg
-                      fill="currentColor"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="w-4 h-4 text-indigo-500"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                    </svg>
-                    <svg
-                      fill="currentColor"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="w-4 h-4 text-indigo-500"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                    </svg>
-                    <svg
-                      fill="currentColor"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="w-4 h-4 text-indigo-500"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                    </svg>
-                    <svg
-                      fill="currentColor"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="w-4 h-4 text-indigo-500"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                    </svg>
-                    <svg
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="w-4 h-4 text-indigo-500"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                    </svg>
-                    <span className="text-gray-600 ml-3">
+                <div className="flex mb-4 item-center mt-3">
+                  <StarRatings starRatedColor="green" numberOfStars={5} rating={product?.rating?.rate} starDimension="15px" starSpacing="1px"/>
+                  <span className="text-black ml-3">
                       {product?.rating?.count} Reviews
                     </span>
-                  </span>
                   <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
                     <a className="text-gray-500">
                       <svg
@@ -199,6 +147,7 @@ function page({ params }) {
           </div>
         </section>
       )}
+      <Footer/>
     </>
   );
 }
