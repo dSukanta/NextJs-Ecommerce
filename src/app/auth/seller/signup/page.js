@@ -26,7 +26,7 @@ function page() {
             />
           </div>
           <div className="mt-12 flex flex-col items-center">
-            <h1 className="text-2xl xl:text-3xl font-extrabold">Sign up</h1>
+            <h1 className="text-2xl xl:text-3xl font-extrabold">Seller Registration</h1>
             <div className="w-full flex-1 mt-8">
               <div className="flex flex-col items-center">
                 <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
@@ -75,6 +75,11 @@ function page() {
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-blue-400 focus:bg-white mt-5"
                   type="tel"
                   placeholder="Phone Number"
+                />
+                <input
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-blue-400 focus:bg-white mt-5"
+                  type="text"
+                  placeholder="Business GST Number"
                 />
               <div className="relative justify-center item-center">
               <input
@@ -139,7 +144,7 @@ function page() {
                   <p className="mr-3 md:mr-0 ">
                     Already have an account? Awesome!!
                   </p>
-                  <Link href={`/auth/login`}>
+                  <Link href={`/auth/seller/signin`}>
                     <button className="hover:border text-white bg-[#002D74] hover:border-gray-400 rounded-lg py-2 px-5 hover:scale-110 hover:bg-[#002c7424] font-semibold duration-300">
                       Login
                     </button>

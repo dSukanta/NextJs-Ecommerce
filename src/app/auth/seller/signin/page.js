@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
-function LoginPage() {
+function SellerLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -12,13 +12,12 @@ function LoginPage() {
 
   return (
     <section className="bg-gray-100 min-h-screen flex box-border justify-center items-center">
-      <div className="bg-indigo-300 rounded-2xl flex max-w-3xl p-5 items-center">
+      <div className="bg-yellow-600 rounded-2xl flex max-w-3xl p-5 items-center">
         <div className="md:w-1/2 px-8">
-          <h2 className="font-bold text-3xl text-[#002D74]">Login</h2>
+          <h2 className="font-bold text-3xl text-[#002D74]">Seller Login</h2>
           <p className="text-sm mt-4 text-[#002D74]">
-            If you already a member, easily log in now.
+            Are you a Seller, Login here.
           </p>
-
           <form action="" className="flex flex-col gap-4">
             <input
               className="p-2 mt-8 rounded-lg border"
@@ -83,8 +82,8 @@ function LoginPage() {
           </div>
 
           <div className="mt-4 text-sm flex justify-between items-center container-mr">
-            <p className="mr-3 md:mr-0 ">If you don't have an account..</p>
-            <Link href={`/auth/signup`}>
+            <p className="mr-3 md:mr-0 ">Want to become a seller?</p>
+            <Link href={`/auth/seller/signup`}>
             <button className="hover:border register text-white bg-[#002D74] hover:border-gray-400 rounded-xl py-2 px-5 hover:scale-110 hover:bg-[#002c7424] font-semibold duration-300">
               Register
             </button>
@@ -103,4 +102,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default SellerLoginPage;
