@@ -22,8 +22,8 @@ function AdminLoginPage() {
             <input
               className="p-2 mt-8 rounded-lg border"
               type="text"
-              name="adminId"
-              placeholder="Admin ID"
+              name="adminemail"
+              placeholder="Admin email"
             />
             <div className="relative">
               <input

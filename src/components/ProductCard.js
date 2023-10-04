@@ -7,7 +7,7 @@ function ProductCard({ data}) {
  
   return (
     <div className="w-80 max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <Link href={`/${data?.id}`}>
+      <Link href={`/products/${data?.id}`}>
       <img
           className="p-8 rounded-t-lg object-contain h-48 w-full transition-transform transform hover:scale-150"
           src={data?.image}
@@ -15,7 +15,7 @@ function ProductCard({ data}) {
         />
       </Link>
       <div className="px-5 pb-5">
-        <Link href={`/${data?.id}`}>
+        <Link href={`/products/${data?.id}`}>
         <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
             {data?.title}
           </h5>
