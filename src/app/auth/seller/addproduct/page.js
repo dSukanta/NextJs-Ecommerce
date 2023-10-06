@@ -1,12 +1,29 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import Upload from "./Upload";
+import SizesComp from "./Sizes";
+import ColorComp from "./Colors";
 
 function page() {
+
+  const [product,setProduct]= useState({title:"",category:"",description:"",price:0,sizes:[],colors:[],numberOfReviews:"",rating:0,images:[]});
+
+  const handleProductUpdate= (event)=>{
+    const {name,value}= event.target;
+    setProduct({...product,[name]:value});
+  };
+
+
+  const hadleNewProductSubmit=(event)=>{
+    event.preventDefault();
+    console.log(product);
+  }
+
+
   return (
     <>
     <h1 className="text-2xl font-black text-center py-10">Add a Product</h1>
     <div className="max-w-2xl mx-auto p-4">
-      <form action="/submit-post" method="POST">
         <div className="mb-6">
           <label
             htmlFor="title"
@@ -20,6 +37,7 @@ function page() {
             name="title"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
             required
+            onChange={handleProductUpdate}
           />
         </div>
 
@@ -36,6 +54,7 @@ function page() {
             name="category"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
             required
+            onChange={handleProductUpdate}
           />
         </div>
 
@@ -52,38 +71,58 @@ function page() {
             name="price"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
             required
+            onChange={handleProductUpdate}
           />
         </div>
-
+        <div className="mb-6">
+        <label
+            htmlFor="size"
+            className="block text-lg font-medium text-gray-800 mb-1"
+          >
+            Size 
+          </label>
+          <SizesComp setProduct={setProduct}/>
+        </div>
+        <div className="mb-6">
+        <label
+            htmlFor="size"
+            className="block text-lg font-medium text-gray-800 mb-1"
+          >
+            Color 
+          </label>
+          <ColorComp setProduct={setProduct}/>
+        </div>
         <div className="mb-6">
           <label
-            htmlFor="content"
+            htmlFor="description"
             className="block text-lg font-medium text-gray-800 mb-1"
           >
             Description <span className="text-red-500">*</span>
           </label>
           <textarea
-            id="content"
-            name="content"
+            id="description"
+            name="description"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
             rows="6"
             required
+            onChange={handleProductUpdate}
           ></textarea>
         </div>
 
         <div className="mb-6">
           <label
-            htmlFor="reviewscount"
+            htmlFor="numberOfReviews"
             className="block text-lg font-medium text-gray-800 mb-1"
           >
             Number of Reviews
           </label>
           <input
             type="number"
-            id="reviewscount"
-            name="reviewscount"
+            id="numberOfReviews"
+            name="numberOfReviews"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
             required
+            onChange={handleProductUpdate}
           />
         </div>
 
@@ -92,7 +131,7 @@ function page() {
             htmlFor="rating"
             className="block text-lg font-medium text-gray-800 mb-1"
           >
-            Number of Reviews
+            Rating
           </label>
           <input
             type="number"
@@ -100,6 +139,7 @@ function page() {
             name="rating"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
             required
+            onChange={handleProductUpdate}
           />
         </div>
 
@@ -118,17 +158,17 @@ function page() {
             className="w-full"
           />
         </div> */}
-        <Upload/>
+        <Upload setProduct={setProduct}/>
 
         <div className="flex justify-end">
           <button
             type="submit"
             className="px-6 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none"
+            onClick={hadleNewProductSubmit}
           >
             Submit
           </button>
         </div>
-      </form>
     </div>
     </>
   );

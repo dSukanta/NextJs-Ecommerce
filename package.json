@@ -11,6 +11,7 @@
   "dependencies": {
     "next": "latest",
     "react": "latest",
+    "react-color": "^2.19.3",
     "react-dom": "latest",
     "react-icons": "^4.11.0",
     "react-star-ratings": "^2.3.0",

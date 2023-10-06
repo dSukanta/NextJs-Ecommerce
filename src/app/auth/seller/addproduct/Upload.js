@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { useRef, useState, useEffect } from 'react';
 
-const Upload = () => {
+const Upload = ({setProduct}) => {
   const inputRef = useRef();
   const [images, setImages] = useState([]);
   const [inputKey, setInputKey] = useState(0);
@@ -15,6 +15,10 @@ const Upload = () => {
     const droppedFiles = Array.from(e.dataTransfer.files);
 
     setImages((prevImages) => [...prevImages, ...droppedFiles]);
+    setProduct((prevProduct)=>({
+      ...prevProduct,
+      images: [...images,...droppedFiles]
+    }))
   };
 
   useEffect(() => {
@@ -43,6 +47,10 @@ const Upload = () => {
     const selectedImages = Array.from(e.target.files);
 
     setImages((prevImages) => [...prevImages, ...selectedImages]);
+    setProduct((prevProduct)=>({
+      ...prevProduct,
+      images: [...images,...selectedImages]
+    }))
   };
 
   const removeImage = (index) => {
@@ -65,7 +73,7 @@ const Upload = () => {
           onDragEnter={handleDragEnter}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          className='w-full h-full border-dashed border-2 border-indigo-600 text-center justify-center item-center p-10 my-5'
+          className='w-full h-full border-dashed border-2 border-indigo-600 text-center justify-center item-center p-10 my-5 -z-10'
         >
           <div>
             <p>Drag and drop files here</p>
@@ -83,8 +91,6 @@ const Upload = () => {
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                width: '100%',
-                height: '100%',
                 cursor: 'pointer',
               }}
               onChange={handleFileChange}
@@ -105,7 +111,7 @@ const Upload = () => {
                   >
                     &#x2715;
                   </span>
-                  <Image src={URL.createObjectURL(image)} alt={image.name} width={200} height={200}/>
+                  <Image src={URL.createObjectURL(image)} alt={image.name} width={150} height={150}/>
                 </div>
               </li>
             ))}
