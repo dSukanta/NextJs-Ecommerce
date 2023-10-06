@@ -5,10 +5,14 @@ import { SketchPicker,AlphaPicker,ChromePicker,CirclePicker ,PhotoshopPicker } f
 
 const ColorComp = ({setProduct}) => {
   const [open, setOpen] = useState(false);
-  const [sketchColor, setSketchColor] = useState('#fff'); // State for SketchPicker
+  const [sketchColor, setSketchColor] = useState(''); // State for SketchPicker
   const [selectedColors, setSelectColors] = useState([]);
 
   const handleColorButtonClick = () => {
+    if(!sketchColor){
+      alert('Please select a color');
+      return;
+    }
     setSelectColors((prevSelectedColors) => [...prevSelectedColors, sketchColor]);
     setProduct((prevProduct)=>({
       ...prevProduct,

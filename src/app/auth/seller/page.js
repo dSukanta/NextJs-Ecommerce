@@ -1,8 +1,11 @@
+import SellerHeader from '@/components/SellerHeader'
 import React from 'react'
 
 function page() {
   return (
-    <div>Seller DashBoard</div>
+    <div>
+      <SellerHeader/>
+    </div>
   )
 }
 
