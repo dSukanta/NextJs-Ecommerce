@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import {BsFillCartPlusFill} from 'react-icons/bs';
@@ -8,10 +9,13 @@ function ProductCard({ data}) {
   return (
     <div className="w-80 max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
       <Link href={`/products/${data?.id}`}>
-      <img
+      <Image
           className="p-8 rounded-t-lg object-contain h-48 w-full transition-transform transform hover:scale-150"
           src={data?.image}
           alt="product image"
+          width="0"
+          height="0"
+          sizes="100vw"
         />
       </Link>
       <div className="px-5 pb-5">
