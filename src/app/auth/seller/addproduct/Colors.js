@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillDelete,AiFillCloseCircle,AiOutlineSend } from "react-icons/ai";
 import { SketchPicker,AlphaPicker,ChromePicker,CirclePicker ,PhotoshopPicker } from 'react-color';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ColorComp = ({setProduct}) => {
   const [open, setOpen] = useState(false);
@@ -10,7 +11,9 @@ const ColorComp = ({setProduct}) => {
 
   const handleColorButtonClick = () => {
     if(!sketchColor){
-      alert('Please select a color');
+      toast.error(`Please select a color`,{
+        position:'top-center'
+      })
       return;
     }
     setSelectColors((prevSelectedColors) => [...prevSelectedColors, sketchColor]);
@@ -52,7 +55,7 @@ const ColorComp = ({setProduct}) => {
             </div>
         )}
       </div>
-      <div className='mt-5 flex items-center space-x-1'>
+      <div className='mt-5 flex items-center space-x-1 flex-wrap'>
         {selectedColors.map((selectedColor, index) => (
           <div key={index} className='flex items-center space-x-1 mb-2 border px-2 rounded-lg bg-gray-200'>
             <div
@@ -70,6 +73,7 @@ const ColorComp = ({setProduct}) => {
           </div>
         ))}
       </div>
+      <Toaster/>
     </div>
   )
 }
