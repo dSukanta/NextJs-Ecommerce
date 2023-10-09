@@ -30,7 +30,7 @@ function SellerProductCard({ data}) {
           </span>
         </div>
         <div className="flex items-center space-x-2">
-            <Link href={`/auth/seller/manageproducts/${data?.id}`}>
+            <Link href={`/seller/manageproducts/${data?.id}`}>
           <button className="px-5 py-1 my-2 rounded-sm bg-green-500 flex flex-row hover:scale-110">Edit <AiOutlineEdit color="white"/></button>
             </Link>
           <button className="px-2 py-1 my-2 rounded-sm bg-red-500 flex flex-row hover:scale-110">Delete <AiFillDelete color="white"/></button>

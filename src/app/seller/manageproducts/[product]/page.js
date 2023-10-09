@@ -1,12 +1,15 @@
 'use client'
-import React, { useState } from "react";
-import Upload from "./Upload";
-import SizesComp from "./Sizes";
-import ColorComp from "./Colors";
 import SellerHeader from "@/components/SellerHeader";
+import React, { useEffect, useState } from "react";
 import toast,{Toaster} from "react-hot-toast";
+import SizesComp from "../../addproduct/Sizes";
+import ColorComp from "../../addproduct/Colors";
+import Upload from "../../addproduct/Upload";
+import { getProductsById } from "@/utils/functions";
+import PageLoading from "@/components/PageLoading";
 
-function Page() {
+function Page({params}) {
+  
   const [product, setProduct] = useState({
     title: "",
     category: "",
@@ -26,13 +29,40 @@ function Page() {
 
   const handleNewProductSubmit = (event) => {
     event.preventDefault();
-    toast.success('Product added successfully!')
+    toast.success('Product edited successfully!')
   };
+
+  const [loading, setLoading] = useState(false);
+
+  const getProduct = async (id) => {
+    setLoading(true);
+    const res = await getProductsById(id);
+    setProduct({
+      ...product,
+      title: res?.title,
+      category:res?.category,
+      price:res?.price,
+      numberOfReviews: res?.rating?.count,
+      rating: res?.rating?.rate,
+      description: res?.description,
+      images:[...product.images,res.image]
+    });
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getProduct(params?.product);
+  }, [params?.product]);
+
+  if(loading){
+    return <PageLoading/>;
+  };
+
 
   return (
     <>
       <SellerHeader />
-      <h1 className="text-2xl text-center font-black p-5 md:p-10">Add a Product</h1>
+      <h1 className="text-2xl text-center font-black p-5 md:p-10">Edit Product</h1>
       <div className="px-5 md:px-10 flex flex-wrap">
         <div className="w-full md:w-1/2 pr-0 md:pr-6 mb-5 md:mb-0">
           <div className="mb-3">
@@ -49,6 +79,7 @@ function Page() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               required
               onChange={handleProductUpdate}
+              defaultValue={product?.title}
             />
           </div>
 
@@ -66,6 +97,7 @@ function Page() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               required
               onChange={handleProductUpdate}
+              defaultValue={product?.category}
             />
           </div>
 
@@ -83,6 +115,7 @@ function Page() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               required
               onChange={handleProductUpdate}
+              defaultValue={product?.price}
             />
           </div>
           <div className="mb-3">
@@ -138,6 +171,7 @@ function Page() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               required
               onChange={handleProductUpdate}
+              defaultValue={product?.numberOfReviews}
             />
           </div>
 
@@ -155,10 +189,11 @@ function Page() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               required
               onChange={handleProductUpdate}
+              defaultValue={product?.rating}
             />
           </div>
 
-          <Upload setProduct={setProduct} />
+          <Upload setProduct={setProduct} product={product}/>
           <div className="flex justify-end">
             <button
               type="submit"
