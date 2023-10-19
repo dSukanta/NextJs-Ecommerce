@@ -5,8 +5,21 @@ import SizesComp from "./Sizes";
 import ColorComp from "./Colors";
 import SellerHeader from "@/components/SellerHeader";
 import toast, { Toaster } from "react-hot-toast";
-import { fetchData } from "@/utils/functions";
+import { fetchData, restrictedPost } from "@/utils/functions";
 import { MdCancel } from "react-icons/md";
+import Modal from "react-modal";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "30%",
+  },
+};
 
 function Page() {
   const [product, setProduct] = useState({
@@ -15,11 +28,13 @@ function Page() {
     description: "",
     price: 0,
     sizes: [],
-    colors: [],
+    color: [],
     numberOfReviews: "",
     rating: 0,
-    images: [],
+    image: [],
   });
+  const [loading, setLoading] = useState({state:false, name:""});
+  const [title, setTitle] = useState("");
 
   const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
@@ -29,10 +44,37 @@ function Page() {
     setProduct({ ...product, [name]: value });
   };
 
-  const handleNewProductSubmit = (event) => {
+  const handleNewProductSubmit = async(event) => {
     event.preventDefault();
-    console.log(product, "product");
-    toast.success("Product added successfully!");
+    if (!product?.title) {
+      return toast.error(`Title is required`);
+    }
+    if (!product?.price) {
+      return toast.error(`product price is required`);
+    }
+    if(product.category && !Array.isArray(product.category)){
+      return toast.error(`product category should be an [array]`);
+    };
+    if (!product?.description) {
+      return toast.error(`product description is required`);
+    };
+    if(!Array.isArray(product.image) || !product.image.length) {
+        return toast.error(`product images is required and should be an [array]`);
+    };
+    if(product.sizes && !Array.isArray(product.sizes)){
+      return toast.error(`product sizes should be an [array]`);
+    };
+    if(product.color && !Array.isArray(product.color)){
+      return toast.error(`product colors should be an [array]`);
+    };
+    const admintoken = localStorage.getItem("admintoken");
+    const res= await restrictedPost(`products/${admintoken}/newproduct`,"POST",product,admintoken);
+    console.log(res,'res')
+    if(res.status === 201){
+      return toast.success(res.message);
+    }else{
+      return toast.error(res.message);
+    }
   };
 
   const getCategories = async () => {
@@ -43,7 +85,7 @@ function Page() {
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [categories]);
 
   const handleChangeCategory = (e) => {
     if (e?.target?.value === "addnew") {
@@ -53,6 +95,25 @@ function Page() {
         ...product,
         category: [...product.category, e.target.value],
       });
+    }
+  };
+
+  const handlePostCategory = async () => {
+    const token = localStorage.getItem("admintoken");
+    setLoading({state:true,name:'postcategory'})
+    const res = await restrictedPost(
+      "categories/addcategory",
+      "POST",
+      { title },
+      token
+    );
+    setLoading({state:false, name:''})
+    if (res.status === 200) {
+      toast.success(res.message);
+      setOpen(false);
+    } else {
+      console.log(res.message);
+      toast.error(res.message);
     }
   };
 
@@ -94,23 +155,17 @@ function Page() {
               className="p-2 rounded border border-grey-600"
             >
               <option value="select a category">Select Category</option>
-              {categories.map((category, i) => (
-                <option key={i} value={category?.title} disabled={product.category.includes(category?.title)}>
+              {categories?.map((category, i) => (
+                <option
+                  key={i}
+                  value={category?.title}
+                  disabled={product.category.includes(category?.title)}
+                >
                   {category?.title}
                 </option>
               ))}
-              <option value="addnew">Add a New Category</option>
+              <option value="addnew">+ Add a New Category</option>
             </select>
-            {/* <select onChange={(e)=>setProduct({...product,category:[...product.category, e.target.value]})} className="p-2 rounded border border-grey-600">
-              <option>Select Category</option>
-              <option onClick={()=>setOpen(true)}>+ Add a New Category</option>
-                {
-                  categories?.map((category,i) =>
-                  <option value={category?.title} key={i} disabled={product?.category?.includes(category?.title)}>{category?.title}</option>
-                  )
-                }
-                
-            </select> */}
             <div className="flex md:flex-row flex-col mt-2">
               {product?.category?.map((cate, i) => (
                 <>
@@ -235,6 +290,26 @@ function Page() {
           </div>
         </div>
       </div>
+      <Modal isOpen={open} style={customStyles}>
+        <h3 className="p-3 text-xl font-bold">+ Add New Category</h3>
+        <input
+          className="border rounded md:w-7/12 h-10 w-full"
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <button disabled={loading.state && loading.name==='postcategory'}
+          onClick={handlePostCategory}
+          className="bg-green-500 rounded p-2 px-3 mx-5 text-white"
+        >
+          + Add
+        </button>
+        <button
+          onClick={() => setOpen(false)}
+          className="bg-red-500 rounded p-2 px-3 text-white"
+        >
+          {" "}
+          x Close
+        </button>
+      </Modal>
       <Toaster />
     </>
   );

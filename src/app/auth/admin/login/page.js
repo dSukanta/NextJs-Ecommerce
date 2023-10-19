@@ -1,14 +1,42 @@
 "use client";
+import { restrictedPost } from "@/utils/functions";
 import Link from "next/link";
 import React, { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 function AdminLoginPage() {
+
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleLogin = async(e) => {
+    e.preventDefault();
+    if(!email){
+      return toast.error('Please enter a valid email')
+    };
+    if(!password){
+      return toast.error('Please enter a valid password')
+    };
+    const res= await restrictedPost('admin/auth/signin',"POST",{email:email,password:password});
+    if(res.error===false || res.status===200){
+        toast.success(res.message);
+       localStorage.setItem('admintoken',res.token);
+      router.replace('/seller/addproduct')
+    }else{
+      console.log(res.message);
+      toast.error(res.message);
+    }
+  }
 
   return (
     <section className="bg-gray-100 min-h-screen flex box-border justify-center items-center">
@@ -24,6 +52,7 @@ function AdminLoginPage() {
               type="text"
               name="adminemail"
               placeholder="Admin email"
+              onChange={(e)=>setEmail(e.target.value)}
             />
             <div className="relative">
               <input
@@ -32,6 +61,7 @@ function AdminLoginPage() {
                 name="password"
                 id="password"
                 placeholder="Password"
+                onChange={(e)=>setPassword(e.target.value)}
               />
               {showPassword ? (
                 <AiFillEye className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer z-20 opacity-100" onClick={togglePasswordVisibility}/>
@@ -42,6 +72,7 @@ function AdminLoginPage() {
             <button
               className="bg-[#002D74] text-white py-2 rounded-xl hover:scale-105 duration-300 hover:bg-[#206ab1] font-medium"
               type="submit"
+              onClick={handleLogin}
             >
               Login
             </button>

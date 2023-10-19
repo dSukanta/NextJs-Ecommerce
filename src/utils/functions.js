@@ -39,4 +39,21 @@ export const fetchData= async(endpoint)=>{
     } catch (error) {
         return `error fetching data ${error?.message}`;
     }
-}
+};
+
+
+export const restrictedPost= async(endpoint="/",method="POST",body,token)=>{
+    const myHeaders= new Headers();
+    myHeaders.append("Content-Type", "application/json"); 
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const options = {
+        method: method,
+        headers: myHeaders,
+        body: JSON.stringify(body)
+    }
+    console.log(body,'data')
+    const res= await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${endpoint}`,options);
+    const data= await res.json();
+    return data;
+};

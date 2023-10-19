@@ -19,8 +19,8 @@ const ColorComp = ({setProduct}) => {
     setSelectColors((prevSelectedColors) => [...prevSelectedColors, sketchColor]);
     setProduct((prevProduct)=>({
       ...prevProduct,
-      colors:[...prevProduct.colors, sketchColor]
-  }))
+      color:[...prevProduct.color, sketchColor]
+  }));
     setOpen(false);
   }
 
@@ -32,7 +32,7 @@ const ColorComp = ({setProduct}) => {
     });
     setProduct((prevProduct)=>({
       ...prevProduct,
-      colors: prevProduct.colors.splice(indexToDelete,1)
+      color: prevProduct?.color?.splice(indexToDelete,1)
     }))
   }
 
