@@ -24,7 +24,7 @@ const Upload = ({ setProduct,product }) => {
 
   return (
     <div>
-      <CldUploadWidget uploadPreset="kfmp7mhq" onUpload={onupload}>
+      <CldUploadWidget uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME} onUpload={onupload}>
         {({ open }) => {
           function handleOnclick(e) {
             e.preventDefault();

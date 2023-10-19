@@ -27,4 +27,16 @@ export const getProductsById= async(id)=>{
     } catch (error) {
         return `error fething data ${error?.message}`;
     }
+};
+
+
+export const fetchData= async(endpoint)=>{
+    // console.log(process.env.NEXT_PUBLIC_BASE_URL,'base url')
+    try {
+        const res= await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${endpoint}`);
+        const data= await res.json();
+        return data;
+    } catch (error) {
+        return `error fetching data ${error?.message}`;
+    }
 }
