@@ -1,18 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { HiBars3BottomRight, HiBars3BottomLeft } from "react-icons/hi2";
 import {CgProfile} from 'react-icons/cg';
 import {MdAddShoppingCart} from 'react-icons/md';
 import {LiaSignOutAltSolid} from 'react-icons/lia';
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
-const SellerHeader = () => {
+const AdminNavbar = ({userData}) => {
   const [isUserDropdownOpen, setUserDropdownOpen] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [userToken,setUserToken] = useState('');
-  const router= useRouter();
 
   const toggleUserDropdown = () => {
     setUserDropdownOpen(!isUserDropdownOpen);
@@ -22,40 +18,21 @@ const SellerHeader = () => {
     setSidebarOpen(!isSidebarOpen);
   };
 
-  useEffect(()=>{
-    const token= localStorage.getItem('admintoken');
-    if(token){
-      setUserToken(token);
-    }
-  });
-
-
-  const handleSignout= ()=>{
-     if(userToken){
-      localStorage.removeItem('admintoken');
-      toast.success('logout successfully');
-      setUserToken(null);
-      router.replace('/auth/admin/login')
-     }else{
-      toast.error('Error logging out/token not available');
-     }
-  }
-
   return (
-    <nav className="bg-yellow-400 border-gray-200 dark:bg-gray-900">
+    <nav className="bg-blue-400 border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link href="/auth/seller" className="flex items-center">
+        <Link href="/" className="flex items-center">
           <img
             src="https://res.cloudinary.com/dcqbgh3vt/image/upload/v1697780406/ubibsm5m3eeepzzsikh8.jpg"
-            className="h-10 mr-3"
+            className="h-8 mr-3"
             alt="Flowbite Logo"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Super Seller
+            Mysterytrunk
           </span>
         </Link>
         <div className="flex items-center md:order-2 relative">
-          {userToken ? (
+          {userData ? (
             <>
               <button
                 type="button"
@@ -111,7 +88,6 @@ const SellerHeader = () => {
                       <a
                         href="#"
                         className="flex px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        onClick={handleSignout}
                       >
                         <LiaSignOutAltSolid className="mr-2" size={20}/> Sign out
                       </a>
@@ -122,20 +98,12 @@ const SellerHeader = () => {
             </>
           ) : (
             <>
-              <Link href={"/auth/seller/signin"}>
+              <Link href={"/auth/admin/login"}>
                 <button
                   type="button"
                   className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                 >
-                  Login
-                </button>
-              </Link>
-              <Link href={"/auth/seller/signup"}>
-                <button
-                  type="button"
-                  className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                >
-                  Signup
+                  Admin Login
                 </button>
               </Link>
             </>
@@ -162,41 +130,31 @@ const SellerHeader = () => {
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <Link
-                href="/seller"
+                href="/auth/admin"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 aria-current="page"
               >
-                Seller Home
+                Dashboard
               </Link>
             </li>
             <li>
               <Link
-                href="/seller/addproduct"
+                href="/products"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 aria-current="page"
               >
-                Add Product
-                
+                Products
               </Link>
             </li>
             <li>
               <Link
-                href="/seller/manageproducts"
+                href="/women"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 aria-current="page"
               >
-                Manage Product
+                Users
               </Link>
             </li>
-            {/* <li>
-              <Link
-                href="/electronics"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                aria-current="page"
-              >
-                Electronics
-              </Link>
-            </li> */}
           </ul>
         </div>
       </div>
@@ -204,4 +162,4 @@ const SellerHeader = () => {
   );
 };
 
-export default SellerHeader;
+export default AdminNavbar;

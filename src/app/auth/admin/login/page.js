@@ -89,6 +89,7 @@ function AdminLoginPage() {
           />
         </div>
       </div>
+      <Toaster/>
     </section>
   );
 }

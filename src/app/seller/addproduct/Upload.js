@@ -3,8 +3,12 @@
 import Image from "next/image";
 import React, { useRef, useState, useEffect } from "react";
 import { CldUploadWidget } from "next-cloudinary";
+import toast from "react-hot-toast";
 
 const Upload = ({ setProduct,product }) => {
+
+  const [userToken,setUserToken] =useState('');
+
 
   // console.log(product);
   const onupload = (result) => {
@@ -23,13 +27,27 @@ const Upload = ({ setProduct,product }) => {
     }))
   };
 
+
+  useEffect(()=>{
+    const token= localStorage.getItem('admintoken');
+    if(token){
+      setUserToken(token);
+    }
+  });
+
+
+
   return (
     <div>
       <CldUploadWidget uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME} onUpload={onupload}>
         {({ open }) => {
           function handleOnclick(e) {
-            e.preventDefault();
-            open();
+            if(userToken){
+              e.preventDefault();
+              open();
+            }else{
+              toast.error('Unauthorized or token unavilable.')
+            }
           }
           return (
             <button

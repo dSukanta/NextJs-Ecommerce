@@ -33,6 +33,7 @@ function Page() {
     rating: 0,
     image: [],
   });
+
   const [loading, setLoading] = useState({state:false, name:""});
   const [title, setTitle] = useState("");
 
@@ -46,6 +47,10 @@ function Page() {
 
   const handleNewProductSubmit = async(event) => {
     event.preventDefault();
+    const admintoken = localStorage.getItem("admintoken");
+    if(!admintoken){
+      return toast.error(`Unauthorized or token not found`);
+    }
     if (!product?.title) {
       return toast.error(`Title is required`);
     }
@@ -67,7 +72,7 @@ function Page() {
     if(product.color && !Array.isArray(product.color)){
       return toast.error(`product colors should be an [array]`);
     };
-    const admintoken = localStorage.getItem("admintoken");
+   
     const res= await restrictedPost(`products/${admintoken}/newproduct`,"POST",product,admintoken);
     console.log(res,'res')
     if(res.status === 201){

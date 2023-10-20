@@ -1,8 +1,14 @@
+
+import AdminNavbar from '@/components/AdminNavbar'
 import React from 'react'
 
 function page() {
+
   return (
-    <div>page</div>
+    
+    <div>
+      <AdminNavbar/>
+      page</div>
   )
 }
 
